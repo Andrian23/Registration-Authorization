@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+
+
+    <div class="container">
+        <h2 class="col-sm-offset-2" id="hello">Hello my friend</h2>
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="control-label col-sm-2">Login:</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="login" placeholder="Enter login">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Password:</label>
+                <div class="col-sm-3">
+                    <input type="password" class="form-control" id="pass" placeholder="Enter password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Name:</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="name" placeholder="Enter password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Surname:</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="sname" placeholder="Enter password">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-info" id="ent">Entry</button>
+                    <button class="btn btn-success" id="reg">Registration</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form role="form" id="avtoriz">
+                        <div class="form-group">
+                            <label>Login</label>
+                            <input type="login" class="form-control" id="log" placeholder="Enter login">
+                        </div>
+                        <div class="form-group">
+                            <label>Password:</label>
+                            <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+                        </div>
+                        <button class="btn btn-success" id="entry">Entery</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <script>
+        $('#myModal').modal('show');
+        $("#reg").click(function () { 
+            var data = {};
+            data.login = $('#login').val();
+            data.password = $('#pass').val();
+            data.name = $('#name').val();
+            data.sname = $('#sname').val();
+            console.log(data);
+            $.ajax({
+                type: 'POST'
+                , data: JSON.stringify(data)
+                , contentType: 'application/json'
+                , url: 'http://localhost:8080/update'
+                , success: function (data) { 
+                },
+                 error: function(err){
+                    console.log(err)
+                }
+            });
+        })
+        $("#entry").click(function (e) { 
+            var user = {};
+            user.login = $('#log').val();
+            user.password = $('#pwd').val();
+            $.ajax({
+                type: 'POST'
+                , data: JSON.stringify(user)
+                , contentType: 'application/json'
+                , url: 'http://localhost:8080/user'
+                , success: function (name) { 
+                    $('#hello').text('Hello ' + name.name);
+                },
+                error: function(err){
+                    console.log(err)
+                }
+            });
+            $('#myModal').modal('hide');
+            e.preventDefault();
+
+        })
+        $("#ent").click(function () {
+            $('#myModal').modal('show');
+
+        })
+    </script>
+</body>
+
+</html>
